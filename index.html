@@ -29,6 +29,34 @@
         align-items: center;
     }
 
+    /* Botón inicial */
+    .btn-abrir {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: var(--rosa-fuerte);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 18px 36px;
+        font-size: 1.3rem;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 0 20px var(--rosa-suave);
+        animation: pulso 1.5s ease-in-out infinite;
+        z-index: 1000;
+    }
+
+    @keyframes pulso {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    .btn-abrir.oculto {
+        display: none;
+    }
+
     .tarjeta {
         width: 100%;
         max-width: 380px;
@@ -36,7 +64,14 @@
         background: var(--fondo-tarjeta);
         border-radius: 20px;
         box-shadow: 0 0 12px rgba(0,0,0,0.12);
-        animation: fadeIn 1s ease;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .tarjeta.visible {
+        opacity: 1;
+        transform: scale(1);
     }
 
     @keyframes fadeIn {
@@ -44,16 +79,55 @@
         to   { opacity: 1; transform: translateY(0); }
     }
 
-    .foto-principal {
+    /* Carousel de fotos */
+    .carousel-container {
+        position: relative;
         width: 100%;
         border-radius: 18px;
-        box-shadow: 0 0 15px var(--rosa-suave);
+        overflow: hidden;
         margin-bottom: 10px;
-        transition: transform .3s ease;
+        box-shadow: 0 0 15px var(--rosa-suave);
+        background-image: url('fondo.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
     }
 
-    .foto-principal:hover {
-        transform: scale(1.02);
+    .carousel-slide {
+        display: none;
+        width: 100%;
+        border-radius: 18px;
+    }
+
+    .carousel-slide.active {
+        display: block;
+        animation: fadeIn 0.8s ease;
+    }
+
+    /* Botón de silenciar pequeño */
+    .btn-mute-mini {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: rgba(255, 77, 167, 0.9);
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        color: #fff;
+        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        transition: transform .2s ease, background .2s ease;
+    }
+
+    .btn-mute-mini:hover {
+        transform: scale(1.1);
+        background: var(--rosa-fuerte);
     }
 
     .titulo {
@@ -69,43 +143,6 @@
         text-align: center;
         color: var(--morado);
         margin-bottom: 8px;
-    }
-
-    /* Botones de música */
-    .controles-musica {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        margin-bottom: 10px;
-        flex-wrap: wrap;
-    }
-
-    .btn-musica {
-        flex: 1 1 130px;
-        border-radius: 999px;
-        border: none;
-        padding: 10px 12px;
-        font-size: 0.9rem;
-        font-weight: 600;
-        cursor: pointer;
-        color: #fff;
-        background: var(--rosa-fuerte);
-        box-shadow: 0 0 10px var(--rosa-suave);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
-    }
-
-    .btn-musica:nth-child(2) {
-        background: var(--morado);
-        box-shadow: 0 0 10px var(--morado);
-    }
-
-    .btn-musica:hover {
-        transform: translateY(-1px) scale(1.02);
-        box-shadow: 0 0 14px var(--rosa-suave);
     }
 
     /* Botones de secciones */
@@ -235,22 +272,25 @@
 </head>
 <body>
 
-<div class="tarjeta">
-    <!-- Imagen principal de la niña -->
-    <img src="1.png" alt="Foto principal" class="foto-principal">
+<!-- Botón inicial para abrir -->
+<button class="btn-abrir" id="btnAbrir">
+    🎀 Abrir Invitación 🎀
+</button>
+
+<div class="tarjeta" id="tarjeta">
+    <!-- Botón de silenciar en esquina -->
+    <button class="btn-mute-mini" id="btnMuteMini">🔇</button>
+
+    <!-- Carousel de imágenes -->
+    <div class="carousel-container">
+        <img src="1.png" alt="Foto 1" class="carousel-slide active">
+        <img src="2.png" alt="Foto 2" class="carousel-slide">
+        <img src="3.png" alt="Foto 3" class="carousel-slide">
+        <img src="4.png" alt="Foto 4" class="carousel-slide">
+    </div>
 
     <div class="titulo">Mi Licenciatura de Kinder</div>
     <div class="subtitulo">Toca los botones para descubrir la invitación ✨</div>
-
-    <!-- Controles de audio -->
-    <div class="controles-musica">
-        <button class="btn-musica" id="btnPlay">
-            ▶️ Reproducir canción
-        </button>
-        <button class="btn-musica" id="btnMute">
-            🔇 Silenciar
-        </button>
-    </div>
 
     <audio id="audio" src="elu.mp3"></audio>
 
@@ -263,7 +303,7 @@
 
     <!-- Sección: Mensaje -->
     <div class="seccion activa" id="seccion-mensaje">
-        <h3>Hola, soy la cumpleañera 🎉</h3>
+        <h3>Hola, soy la festejada 🎉</h3>
         <p class="mensaje-texto">
             Te invito a celebrar conmigo mi <strong>Licenciatura de Kinder</strong>.
             Será un día lleno de juegos, abrazos y mucha magia Kuromi.
@@ -276,10 +316,10 @@
     <div class="seccion" id="seccion-detalles">
         <h3>Detalles de la celebración</h3>
         <ul class="detalles-lista">
-            <li><span>📅 Día:</span> (escribe aquí la fecha)</li>
-            <li><span>🕒 Hora:</span> (escribe aquí la hora)</li>
-            <li><span>📍 Lugar:</span> (dirección o nombre del lugar)</li>
-            <li><span>📱 Confirmar asistencia:</span> (número de WhatsApp)</li>
+            <li><span>📅 Día:</span> Sábado 20 de Diciembre</li>
+            <li><span>🕒 Hora:</span> 15:30 horas</li>
+            <li><span>📍 Lugar:</span> Pedro León Gallo 97, El Palqui</li>
+            <li><span>📱 Confirmar asistencia:</span> +56 9 3098 0711 (Mamá Favi)</li>
         </ul>
     </div>
 
@@ -287,12 +327,13 @@
     <div class="seccion" id="seccion-galeria">
         <h3>Momentos Kuromi</h3>
         <div class="galeria">
-            <img src="2.png" alt="Foto Kuromi 1">
-            <img src="3.png" alt="Foto Kuromi 2">
-            <div class="slot-extra">+ Imagen Kuromi aquí</div>
-            <div class="slot-extra">+ Imagen Kuromi aquí</div>
-            <div class="slot-extra">+ Imagen Kuromi aquí</div>
-            <div class="slot-extra">+ Imagen Kuromi aquí</div>
+            <img src="kuromi1.jpg" alt="Foto Kuromi 1">
+            <img src="kuromi2.jpg" alt="Foto Kuromi 2">
+
+            <img src="kuromi3.jpg" alt="Foto Kuromi 3">
+            <img src="kuromi4.jpg" alt="Foto Kuromi 4">
+            <img src="kuromi1.jpg" alt="Foto Kuromi 5">
+            <img src="kuromi2.jpg" alt="Foto Kuromi 6 ">
         </div>
     </div>
 
@@ -303,28 +344,37 @@
 
 <script>
     const audio = document.getElementById('audio');
-    const btnPlay = document.getElementById('btnPlay');
-    const btnMute = document.getElementById('btnMute');
+    const btnAbrir = document.getElementById('btnAbrir');
+    const btnMuteMini = document.getElementById('btnMuteMini');
+    const tarjeta = document.getElementById('tarjeta');
+    const slides = document.querySelectorAll('.carousel-slide');
 
-    let isPlaying = false;
+    let currentSlide = 0;
     let isMuted = false;
 
-    btnPlay.addEventListener('click', () => {
-        if (!isPlaying) {
-            audio.play();
-            isPlaying = true;
-            btnPlay.textContent = '⏸️ Pausar canción';
-        } else {
-            audio.pause();
-            isPlaying = false;
-            btnPlay.textContent = '▶️ Reproducir canción';
-        }
+    // Botón abrir invitación
+    btnAbrir.addEventListener('click', () => {
+        btnAbrir.classList.add('oculto');
+        tarjeta.classList.add('visible');
+        
+        // Iniciar música automáticamente
+        audio.play().catch(err => {
+            console.log('No se pudo reproducir automáticamente:', err);
+        });
+
+        // Iniciar carousel
+        setInterval(() => {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }, 3000); // Cambiar cada 3 segundos
     });
 
-    btnMute.addEventListener('click', () => {
+    // Botón silenciar
+    btnMuteMini.addEventListener('click', () => {
         isMuted = !isMuted;
         audio.muted = isMuted;
-        btnMute.textContent = isMuted ? '🔊 Activar sonido' : '🔇 Silenciar';
+        btnMuteMini.textContent = isMuted ? '🔊' : '🔇';
     });
 
     // Tabs
