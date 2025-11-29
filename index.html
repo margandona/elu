@@ -116,11 +116,11 @@
         transform: scale(1.02);
     }
 
-    /* Botón flotante estilo Kuromi */
+    /* Botón flotante estilo Kuromi (posición sobre el carousel) */
     .btn-mute-float {
         position: absolute;
-        top: 15px;
-        right: 15px;
+        bottom: 12px;
+        right: 12px;
         background: linear-gradient(135deg, rgba(199, 180, 255, 0.85), rgba(255, 77, 167, 0.85));
         border: 3px solid rgba(255, 255, 255, 0.8);
         border-radius: 50%;
@@ -337,9 +337,7 @@
      Abrir Invitación 
 </button>
 
-<div class="tarjeta" id="tarjeta">
-    <!-- Botón flotante de sonido estilo Kuromi -->
-    <button class="btn-mute-float" id="btnMuteFloat">🔇</button>
+    <div class="tarjeta" id="tarjeta">
     
     <!-- Carousel de imágenes -->
     <div class="carousel-container">
@@ -349,6 +347,8 @@
         <img src="4.png" alt="Foto 4" class="carousel-slide">
         <img src="5.png" alt="Foto 5" class="carousel-slide">
         <img src="6.png" alt="Foto 6" class="carousel-slide">
+        <!-- Botón flotante de sonido dentro del carousel (esquina inferior derecha) -->
+        <button class="btn-mute-float" id="btnMuteFloat">🔇</button>
     </div>
 
     <div class="titulo">Mi Licenciatura de Kinder</div>
