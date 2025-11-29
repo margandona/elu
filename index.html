@@ -98,23 +98,27 @@
         overflow: hidden;
         margin-bottom: 10px;
         box-shadow: 0 0 15px var(--rosa-suave);
-        background-image: url('fondo.jpg');
+        background-image: url('optimized/fondo.webp');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
     }
 
-    .carousel-slide {
+    .carousel-container picture {
         display: none;
+        width: 100%;
+    }
+
+    .carousel-container picture:has(.carousel-slide.active) {
+        display: block;
+    }
+
+    .carousel-slide {
+        display: block;
         width: 100%;
         border-radius: 18px;
         cursor: pointer;
         transition: transform 0.3s ease;
-    }
-
-    .carousel-slide.active {
-        display: block;
-        /* animation will be applied based on effect class (effect-1..effect-6) */
     }
 
     /* Different entrance effects for slides */
@@ -365,6 +369,11 @@
         margin-top: 6px;
     }
 
+    .galeria picture {
+        width: 100%;
+        display: block;
+    }
+
     .galeria img,
     .slot-extra {
         width: 100%;
@@ -523,16 +532,46 @@
     
     <!-- Carousel de imágenes -->
     <div class="carousel-container">
-        <img src="1.png" alt="Foto 1" class="carousel-slide active effect-1">
-        <img src="2.png" alt="Foto 2" class="carousel-slide effect-2">
-        <img src="3.png" alt="Foto 3" class="carousel-slide effect-3">
-        <img src="4.png" alt="Foto 4" class="carousel-slide effect-4">
-        <img src="5.png" alt="Foto 5" class="carousel-slide effect-5">
-        <img src="6.png" alt="Foto 6" class="carousel-slide effect-6">
-        <img src="7.png" alt="Foto 7" class="carousel-slide effect-7">
-        <img src="8.png" alt="Foto 8" class="carousel-slide effect-8">
-        <img src="9.png" alt="Foto 9" class="carousel-slide effect-9">
-        <img src="10.png" alt="Foto 10" class="carousel-slide effect-10">
+        <picture>
+            <source srcset="optimized/1.webp" type="image/webp">
+            <img src="optimized/1.png" alt="Foto 1" class="carousel-slide active effect-1">
+        </picture>
+        <picture>
+            <source srcset="optimized/2.webp" type="image/webp">
+            <img src="optimized/2.png" alt="Foto 2" class="carousel-slide effect-2">
+        </picture>
+        <picture>
+            <source srcset="optimized/3.webp" type="image/webp">
+            <img src="optimized/3.png" alt="Foto 3" class="carousel-slide effect-3">
+        </picture>
+        <picture>
+            <source srcset="optimized/4.webp" type="image/webp">
+            <img src="optimized/4.png" alt="Foto 4" class="carousel-slide effect-4">
+        </picture>
+        <picture>
+            <source srcset="optimized/5.webp" type="image/webp">
+            <img src="optimized/5.png" alt="Foto 5" class="carousel-slide effect-5">
+        </picture>
+        <picture>
+            <source srcset="optimized/6.webp" type="image/webp">
+            <img src="optimized/6.png" alt="Foto 6" class="carousel-slide effect-6">
+        </picture>
+        <picture>
+            <source srcset="optimized/7.webp" type="image/webp">
+            <img src="optimized/7.png" alt="Foto 7" class="carousel-slide effect-7">
+        </picture>
+        <picture>
+            <source srcset="optimized/8.webp" type="image/webp">
+            <img src="optimized/8.png" alt="Foto 8" class="carousel-slide effect-8">
+        </picture>
+        <picture>
+            <source srcset="optimized/9.webp" type="image/webp">
+            <img src="optimized/9.png" alt="Foto 9" class="carousel-slide effect-9">
+        </picture>
+        <picture>
+            <source srcset="optimized/10.webp" type="image/webp">
+            <img src="optimized/10.png" alt="Foto 10" class="carousel-slide effect-10">
+        </picture>
         <!-- Botón flotante de sonido dentro del carousel (esquina inferior derecha) -->
         <button class="btn-mute-float" id="btnMuteFloat">🔇</button>
     </div>
@@ -540,7 +579,7 @@
     <div class="titulo">Mi Licenciatura de Kinder</div>
     <div class="subtitulo">Toca los botones para descubrir la invitación ✨</div>
 
-    <audio id="audio" src="elu.mp3"></audio>
+    <audio id="audio" src="optimized/elu.mp3"></audio>
 
     <!-- Botones de secciones -->
     <div class="tabs">
@@ -575,13 +614,30 @@
     <div class="seccion" id="seccion-galeria">
         <h3>Momentos Kuromi</h3>
         <div class="galeria">
-            <img src="kuromi1.png" alt="Foto Kuromi 1">
-            <img src="kuromi2.png" alt="Foto Kuromi 2">
-
-            <img src="kuromi3.png" alt="Foto Kuromi 3">
-            <img src="kuromi4.png" alt="Foto Kuromi 4">
-            <img src="kuromi5.png" alt="Foto Kuromi 5">
-            <img src="kuromi6.png" alt="Foto Kuromi 6 ">
+            <picture>
+                <source srcset="optimized/kuromi1.webp" type="image/webp">
+                <img src="optimized/kuromi1.png" alt="Foto Kuromi 1" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="optimized/kuromi2.webp" type="image/webp">
+                <img src="optimized/kuromi2.png" alt="Foto Kuromi 2" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="optimized/kuromi3.webp" type="image/webp">
+                <img src="optimized/kuromi3.png" alt="Foto Kuromi 3" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="optimized/kuromi4.webp" type="image/webp">
+                <img src="optimized/kuromi4.png" alt="Foto Kuromi 4" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="optimized/kuromi5.webp" type="image/webp">
+                <img src="optimized/kuromi5.png" alt="Foto Kuromi 5" loading="lazy">
+            </picture>
+            <picture>
+                <source srcset="optimized/kuromi6.webp" type="image/webp">
+                <img src="optimized/kuromi6.png" alt="Foto Kuromi 6" loading="lazy">
+            </picture>
         </div>
     </div>
 

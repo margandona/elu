@@ -1,0 +1,29 @@
+{
+  "name": "elu",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "optimize": "node optimize-all.js",
+    "optimize:images": "node optimize-images.js",
+    "optimize:audio": "node optimize-audio.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/margandona/elu.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/margandona/elu/issues"
+  },
+  "homepage": "https://github.com/margandona/elu#readme",
+  "devDependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "fluent-ffmpeg": "^2.1.3",
+    "sharp": "^0.34.5"
+  }
+}
