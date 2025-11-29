@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Invitación Kuromi - Licenciatura Kinder</title>
+
+<style>
+    :root {
+        --rosa-suave: #FF8DC7;
+        --rosa-fuerte: #FF4FA7;
+        --morado: #C7B4FF;
+        --negro-suave: #2F2F2F;
+        --fondo-tarjeta: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--negro-suave);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .tarjeta {
+        width: 100%;
+        max-width: 380px;
+        padding: 10px 10px 16px;
+        background: var(--fondo-tarjeta);
+        border-radius: 20px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.12);
+        animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(8px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .foto-principal {
+        width: 100%;
+        border-radius: 18px;
+        box-shadow: 0 0 15px var(--rosa-suave);
+        margin-bottom: 10px;
+        transition: transform .3s ease;
+    }
+
+    .foto-principal:hover {
+        transform: scale(1.02);
+    }
+
+    .titulo {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--rosa-fuerte);
+        text-align: center;
+        margin: 4px 0 2px;
+    }
+
+    .subtitulo {
+        font-size: 0.95rem;
+        text-align: center;
+        color: var(--morado);
+        margin-bottom: 8px;
+    }
+
+    /* Botones de música */
+    .controles-musica {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 10px;
+        flex-wrap: wrap;
+    }
+
+    .btn-musica {
+        flex: 1 1 130px;
+        border-radius: 999px;
+        border: none;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        color: #fff;
+        background: var(--rosa-fuerte);
+        box-shadow: 0 0 10px var(--rosa-suave);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+
+    .btn-musica:nth-child(2) {
+        background: var(--morado);
+        box-shadow: 0 0 10px var(--morado);
+    }
+
+    .btn-musica:hover {
+        transform: translateY(-1px) scale(1.02);
+        box-shadow: 0 0 14px var(--rosa-suave);
+    }
+
+    /* Botones de secciones */
+    .tabs {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-bottom: 10px;
+    }
+
+    .tab-btn {
+        border-radius: 999px;
+        border: 2px solid var(--morado);
+        background: #fff;
+        padding: 6px 4px;
+        font-size: 0.75rem;
+        cursor: pointer;
+        color: var(--negro-suave);
+        font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3px;
+        transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    .tab-btn.active {
+        background: var(--rosa-fuerte);
+        color: #fff;
+        box-shadow: 0 0 10px var(--rosa-suave);
+        transform: translateY(-1px);
+    }
+
+    /* Contenido de secciones */
+    .seccion {
+        display: none;
+        border-radius: 16px;
+        padding: 10px;
+        background: linear-gradient(145deg, #FFF7FF, #FDF3FF);
+        border: 1px solid rgba(199,180,255,0.6);
+        min-height: 120px;
+    }
+
+    .seccion.activa {
+        display: block;
+    }
+
+    .seccion h3 {
+        margin-top: 0;
+        font-size: 1rem;
+        color: var(--rosa-fuerte);
+    }
+
+    .mensaje-texto {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+
+    .detalles-lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+    .detalles-lista li {
+        margin-bottom: 4px;
+    }
+
+    .detalles-lista span {
+        font-weight: 600;
+        color: var(--rosa-fuerte);
+    }
+
+    /* Galería Kuromi */
+    .galeria {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .galeria img,
+    .slot-extra {
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 0 6px rgba(0,0,0,0.08);
+        background: #fff;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .galeria img {
+        object-fit: cover;
+        height: 70px;
+    }
+
+    .galeria img:hover {
+        transform: scale(1.07);
+        box-shadow: 0 0 10px var(--morado);
+    }
+
+    .slot-extra {
+        border: 2px dashed var(--rosa-suave);
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        color: var(--rosa-fuerte);
+        padding: 4px;
+        text-align: center;
+    }
+
+    .nota-final {
+        margin-top: 6px;
+        font-size: 0.75rem;
+        color: #888;
+        text-align: center;
+    }
+
+    @media (max-width: 340px) {
+        .titulo { font-size: 1.2rem; }
+        .subtitulo { font-size: 0.85rem; }
+        .btn-musica { font-size: 0.8rem; }
+    }
+</style>
+</head>
+<body>
+
+<div class="tarjeta">
+    <!-- Imagen principal de la niña -->
+    <img src="1.png" alt="Foto principal" class="foto-principal">
+
+    <div class="titulo">Mi Licenciatura de Kinder</div>
+    <div class="subtitulo">Toca los botones para descubrir la invitación ✨</div>
+
+    <!-- Controles de audio -->
+    <div class="controles-musica">
+        <button class="btn-musica" id="btnPlay">
+            ▶️ Reproducir canción
+        </button>
+        <button class="btn-musica" id="btnMute">
+            🔇 Silenciar
+        </button>
+    </div>
+
+    <audio id="audio" src="elu.mp3"></audio>
+
+    <!-- Botones de secciones -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="mensaje">💌 Mensaje</button>
+        <button class="tab-btn" data-tab="detalles">📅 Cuándo y dónde</button>
+        <button class="tab-btn" data-tab="galeria">🎀 Momentos Kuromi</button>
+    </div>
+
+    <!-- Sección: Mensaje -->
+    <div class="seccion activa" id="seccion-mensaje">
+        <h3>Hola, soy la cumpleañera 🎉</h3>
+        <p class="mensaje-texto">
+            Te invito a celebrar conmigo mi <strong>Licenciatura de Kinder</strong>.
+            Será un día lleno de juegos, abrazos y mucha magia Kuromi.
+            <br><br>
+            ¡Me encantará que estés ahí conmigo! 💖
+        </p>
+    </div>
+
+    <!-- Sección: Detalles -->
+    <div class="seccion" id="seccion-detalles">
+        <h3>Detalles de la celebración</h3>
+        <ul class="detalles-lista">
+            <li><span>📅 Día:</span> (escribe aquí la fecha)</li>
+            <li><span>🕒 Hora:</span> (escribe aquí la hora)</li>
+            <li><span>📍 Lugar:</span> (dirección o nombre del lugar)</li>
+            <li><span>📱 Confirmar asistencia:</span> (número de WhatsApp)</li>
+        </ul>
+    </div>
+
+    <!-- Sección: Galería -->
+    <div class="seccion" id="seccion-galeria">
+        <h3>Momentos Kuromi</h3>
+        <div class="galeria">
+            <img src="2.png" alt="Foto Kuromi 1">
+            <img src="3.png" alt="Foto Kuromi 2">
+            <div class="slot-extra">+ Imagen Kuromi aquí</div>
+            <div class="slot-extra">+ Imagen Kuromi aquí</div>
+            <div class="slot-extra">+ Imagen Kuromi aquí</div>
+            <div class="slot-extra">+ Imagen Kuromi aquí</div>
+        </div>
+    </div>
+
+    <div class="nota-final">
+        Tip: puedes cambiar textos e imágenes según necesites 💕
+    </div>
+</div>
+
+<script>
+    const audio = document.getElementById('audio');
+    const btnPlay = document.getElementById('btnPlay');
+    const btnMute = document.getElementById('btnMute');
+
+    let isPlaying = false;
+    let isMuted = false;
+
+    btnPlay.addEventListener('click', () => {
+        if (!isPlaying) {
+            audio.play();
+            isPlaying = true;
+            btnPlay.textContent = '⏸️ Pausar canción';
+        } else {
+            audio.pause();
+            isPlaying = false;
+            btnPlay.textContent = '▶️ Reproducir canción';
+        }
+    });
+
+    btnMute.addEventListener('click', () => {
+        isMuted = !isMuted;
+        audio.muted = isMuted;
+        btnMute.textContent = isMuted ? '🔊 Activar sonido' : '🔇 Silenciar';
+    });
+
+    // Tabs
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const secciones = {
+        mensaje: document.getElementById('seccion-mensaje'),
+        detalles: document.getElementById('seccion-detalles'),
+        galeria: document.getElementById('seccion-galeria')
+    };
+
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // activar botón
+            tabButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // mostrar sección
+            const tab = btn.getAttribute('data-tab');
+            Object.keys(secciones).forEach(key => {
+                secciones[key].classList.toggle('activa', key === tab);
+            });
+        });
+    });
+</script>
+
+</body>
+</html>
