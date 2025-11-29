@@ -104,13 +104,87 @@
 
     .carousel-slide.active {
         display: block;
-        animation: zoomSlide 0.8s ease;
+        /* animation will be applied based on effect class (effect-1..effect-6) */
     }
 
+    /* Different entrance effects for slides */
     @keyframes zoomSlide {
-        0% { opacity: 0; transform: scale(1.2); }
+        0% { opacity: 0; transform: scale(1.25); }
         100% { opacity: 1; transform: scale(1); }
     }
+
+    @keyframes slideLeft {
+        0% { opacity: 0; transform: translateX(-30%) scale(0.95); }
+        100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes slideRight {
+        0% { opacity: 0; transform: translateX(30%) scale(0.95); }
+        100% { opacity: 1; transform: translateX(0) scale(1); }
+    }
+
+    @keyframes rotateIn {
+        0% { opacity: 0; transform: rotate(-12deg) scale(0.9); }
+        100% { opacity: 1; transform: rotate(0deg) scale(1); }
+    }
+
+    @keyframes popIn {
+        0% { opacity: 0; transform: scale(0.6); }
+        60% { transform: scale(1.08); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes softFade {
+        0% { opacity: 0; transform: translateY(12px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Additional effects (7-12) */
+    @keyframes flipIn {
+        0% { opacity: 0; transform: rotateX(-90deg) translateZ(-100px); }
+        100% { opacity: 1; transform: rotateX(0deg) translateZ(0); }
+    }
+
+    @keyframes skewIn {
+        0% { opacity: 0; transform: skewX(20deg) translateY(20px); }
+        100% { opacity: 1; transform: skewX(0) translateY(0); }
+    }
+
+    @keyframes burst {
+        0% { opacity: 0; transform: scale(0.4) rotate(-10deg); }
+        70% { transform: scale(1.12) rotate(4deg); }
+        100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+
+    @keyframes stretch {
+        0% { opacity: 0; transform: scaleX(0.4) scaleY(1.2); }
+        100% { opacity: 1; transform: scaleX(1) scaleY(1); }
+    }
+
+    @keyframes blurIn {
+        0% { opacity: 0; filter: blur(6px) brightness(0.8); transform: scale(0.98); }
+        100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
+    }
+
+    @keyframes bounceIn {
+        0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+        60% { transform: translateY(-10px) scale(1.03); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Map effect classes to animations when active */
+    .carousel-slide.active.effect-1 { animation: zoomSlide 0.8s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-2 { animation: slideLeft 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-3 { animation: slideRight 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-4 { animation: rotateIn 0.85s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-5 { animation: popIn 0.6s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-6 { animation: softFade 0.9s ease both; }
+    .carousel-slide.active.effect-7 { animation: flipIn 0.85s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-8 { animation: skewIn 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-9 { animation: burst 0.8s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-10 { animation: stretch 0.7s cubic-bezier(.2,.8,.2,1) both; }
+    .carousel-slide.active.effect-11 { animation: blurIn 0.9s ease both; }
+    .carousel-slide.active.effect-12 { animation: bounceIn 0.8s cubic-bezier(.2,.8,.2,1) both; }
 
     .carousel-slide:hover {
         transform: scale(1.02);
@@ -328,6 +402,104 @@
         .subtitulo { font-size: 0.85rem; }
         .btn-musica { font-size: 0.8rem; }
     }
+    /* Lightbox / modal for gallery images */
+    .lightbox-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.6);
+        z-index: 2000;
+        padding: 20px;
+    }
+
+    .lightbox-overlay.visible { display: flex; }
+
+    .lightbox-content {
+        position: relative;
+        max-width: 820px;
+        width: 100%;
+        border-radius: 14px;
+        overflow: hidden;
+        background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+        box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .lightbox-img {
+        max-width: 100%;
+        max-height: 78vh;
+        border-radius: 10px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+        transition: transform .35s ease, filter .35s ease;
+    }
+
+    .lightbox-caption {
+        position: absolute;
+        left: 16px;
+        bottom: 12px;
+        right: 16px;
+        color: #fff;
+        font-weight: 600;
+        text-align: center;
+        text-shadow: 0 4px 18px rgba(0,0,0,0.6);
+    }
+
+    .lightbox-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(255,255,255,0.12);
+        border: none;
+        color: #fff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    }
+
+    .lightbox-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,0.06);
+        border: none;
+        color: #fff;
+        width: 48px;
+        height: 64px;
+        border-radius: 10px;
+        font-size: 28px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .lightbox-nav.left { left: 8px; }
+    .lightbox-nav.right { right: 8px; }
+
+    /* small click heart animation */
+    .pop-heart {
+        position: absolute;
+        width: 28px;
+        height: 28px;
+        background: radial-gradient(circle at 30% 30%, #fff6, #fff0);
+        transform: translate(-50%, -50%) scale(0.2) rotate(-15deg);
+        pointer-events: none;
+        opacity: 0;
+        transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s ease;
+    }
+
+    .pop-heart.show {
+        opacity: 1;
+        transform: translate(-50%, -120%) scale(1) rotate(0deg);
+    }
 </style>
 </head>
 <body>
@@ -341,12 +513,16 @@
     
     <!-- Carousel de imágenes -->
     <div class="carousel-container">
-        <img src="1.png" alt="Foto 1" class="carousel-slide active">
-        <img src="2.png" alt="Foto 2" class="carousel-slide">
-        <img src="3.png" alt="Foto 3" class="carousel-slide">
-        <img src="4.png" alt="Foto 4" class="carousel-slide">
-        <img src="5.png" alt="Foto 5" class="carousel-slide">
-        <img src="6.png" alt="Foto 6" class="carousel-slide">
+        <img src="1.png" alt="Foto 1" class="carousel-slide active effect-1">
+        <img src="2.png" alt="Foto 2" class="carousel-slide effect-2">
+        <img src="3.png" alt="Foto 3" class="carousel-slide effect-3">
+        <img src="4.png" alt="Foto 4" class="carousel-slide effect-4">
+        <img src="5.png" alt="Foto 5" class="carousel-slide effect-5">
+        <img src="6.png" alt="Foto 6" class="carousel-slide effect-6">
+        <img src="7.png" alt="Foto 7" class="carousel-slide effect-7">
+        <img src="8.png" alt="Foto 8" class="carousel-slide effect-8">
+        <img src="9.png" alt="Foto 9" class="carousel-slide effect-9">
+        <img src="10.png" alt="Foto 10" class="carousel-slide effect-10">
         <!-- Botón flotante de sonido dentro del carousel (esquina inferior derecha) -->
         <button class="btn-mute-float" id="btnMuteFloat">🔇</button>
     </div>
@@ -360,7 +536,7 @@
     <div class="tabs">
         <button class="tab-btn active" data-tab="mensaje">💌 Mensaje</button>
         <button class="tab-btn" data-tab="detalles">📅 Cuándo y dónde</button>
-        <button class="tab-btn" data-tab="galeria">🎀 Momentos Kuromi</button>
+        <button class="tab-btn" data-tab="galeria">🎀 Momentos de Eluney y Kuromi</button>
     </div>
 
     <!-- Sección: Mensaje -->
@@ -404,6 +580,17 @@
     </div>
 </div>
 
+<!-- Lightbox overlay for gallery images -->
+<div class="lightbox-overlay" id="lightbox" aria-hidden="true">
+    <div id="lightboxContent" class="lightbox-content" role="dialog" aria-modal="true">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">×</button>
+        <button class="lightbox-nav left" id="lightboxPrev" aria-label="Anterior">‹</button>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="">
+        <div id="lightboxCaption" class="lightbox-caption"></div>
+        <button class="lightbox-nav right" id="lightboxNext" aria-label="Siguiente">›</button>
+    </div>
+</div>
+
 <script>
     const audio = document.getElementById('audio');
     const btnAbrir = document.getElementById('btnAbrir');
@@ -411,9 +598,66 @@
     const tarjeta = document.getElementById('tarjeta');
     const slides = document.querySelectorAll('.carousel-slide');
 
+    // Effect classes (12 different effects)
+    const effectClasses = ['effect-1','effect-2','effect-3','effect-4','effect-5','effect-6','effect-7','effect-8','effect-9','effect-10','effect-11','effect-12'];
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // Assign an effect to a single slide, avoiding repeating the last effect for that slide
+    function assignRandomEffectToSlide(slide) {
+        if (!slide) return;
+        const last = slide.dataset.lastEffect || null;
+        // pick random effect not equal to last if possible
+        const pool = effectClasses.slice();
+        if (pool.length === 0) return;
+        // remove last from pool to prefer change
+        if (last) {
+            const idx = pool.indexOf(last);
+            if (idx !== -1 && pool.length > 1) pool.splice(idx, 1);
+        }
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        slide.classList.remove(...effectClasses);
+        slide.classList.add(pick);
+        slide.dataset.lastEffect = pick;
+    }
+
+    // Assign initial random effects to all slides (unique while possible)
+    function assignRandomEffectsToSlides() {
+        const slidesArr = Array.from(slides);
+        if (!slidesArr.length) return;
+
+        const pool = shuffle(effectClasses.slice());
+        // assign unique effects where possible
+        for (let i = 0; i < slidesArr.length; i++) {
+            const pick = pool[i % pool.length];
+            slidesArr[i].classList.remove(...effectClasses);
+            slidesArr[i].classList.add(pick);
+            slidesArr[i].dataset.lastEffect = pick;
+        }
+    }
+
+    // Assign effects now (script is at end of body so DOM is ready)
+    assignRandomEffectsToSlides();
+
     let currentSlide = 0;
     let isMuted = false;
     let carouselInterval;
+
+    // Advance slide handler: remove active from current, update next with a new random effect, then set active
+    function advanceSlide() {
+        if (!slides.length) return;
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        // assign a new random effect to the upcoming slide (different from its previous)
+        assignRandomEffectToSlide(slides[currentSlide]);
+        slides[currentSlide].classList.add('active');
+    }
 
     // Botón abrir invitación
     btnAbrir.addEventListener('click', () => {
@@ -425,11 +669,10 @@
             console.log('No se pudo reproducir automáticamente:', err);
         });
 
-        // Iniciar carousel
+        // Iniciar carousel (advanceSlide will set a new random effect for each shown slide)
+        advanceSlide(); // show first advance immediately
         carouselInterval = setInterval(() => {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+            advanceSlide();
         }, 3000); // Cambiar cada 3 segundos
     });
 
@@ -450,17 +693,101 @@
     slides.forEach(slide => {
         slide.addEventListener('click', () => {
             clearInterval(carouselInterval);
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-            
+            // advance via same function so effects are randomized for the shown slide
+            advanceSlide();
+
             // Reiniciar el carousel automático
             carouselInterval = setInterval(() => {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
+                advanceSlide();
             }, 3000);
         });
+    });
+
+    /* Gallery lightbox behavior for .galeria images */
+    const galleryImgs = document.querySelectorAll('.galeria img');
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightboxImg');
+    const lbCaption = document.getElementById('lightboxCaption');
+    const lbClose = document.getElementById('lightboxClose');
+    const lbNext = document.getElementById('lightboxNext');
+    const lbPrev = document.getElementById('lightboxPrev');
+    let galleryList = Array.from(galleryImgs).map(img => ({src: img.src, alt: img.alt}));
+    let lbIndex = 0;
+
+    function openLightbox(index) {
+        lbIndex = index;
+        const item = galleryList[lbIndex];
+        lbImg.src = item.src;
+        lbImg.alt = item.alt || '';
+        lbCaption.textContent = item.alt || '';
+
+        // Ajustar el tamaño máximo del lightbox para que no exceda la tarjeta
+        const lbContent = document.getElementById('lightboxContent');
+        if (tarjeta) {
+            const rect = tarjeta.getBoundingClientRect();
+            // aplicar como maximos (px) para que el modal no supere la tarjeta
+            lbContent.style.maxWidth = rect.width + 'px';
+            lbContent.style.maxHeight = rect.height + 'px';
+            // ajustar la imagen interior para caber dentro del contenido
+            const imgMaxH = Math.max(rect.height - 80, 100); // dejar espacio para caption/botones
+            lbImg.style.maxHeight = imgMaxH + 'px';
+        } else {
+            lbImg.style.maxHeight = '';
+        }
+
+        lightbox.classList.add('visible');
+        lightbox.setAttribute('aria-hidden','false');
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('visible');
+        lightbox.setAttribute('aria-hidden','true');
+        lbImg.src = '';
+    }
+
+    function nextLightbox() {
+        lbIndex = (lbIndex + 1) % galleryList.length;
+        openLightbox(lbIndex);
+    }
+
+    function prevLightbox() {
+        lbIndex = (lbIndex - 1 + galleryList.length) % galleryList.length;
+        openLightbox(lbIndex);
+    }
+
+    galleryImgs.forEach((img, idx) => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // little click pop
+            const rect = img.getBoundingClientRect();
+            const heart = document.createElement('div');
+            heart.className = 'pop-heart';
+            heart.style.left = (e.clientX - rect.left) + 'px';
+            heart.style.top = (e.clientY - rect.top) + 'px';
+            img.parentElement.appendChild(heart);
+            requestAnimationFrame(() => heart.classList.add('show'));
+            setTimeout(() => heart.remove(), 700);
+
+            openLightbox(idx);
+        });
+    });
+
+    lbClose.addEventListener('click', closeLightbox);
+    lbNext.addEventListener('click', (e) => { e.stopPropagation(); nextLightbox(); });
+    lbPrev.addEventListener('click', (e) => { e.stopPropagation(); prevLightbox(); });
+
+    // close when clicking outside content
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    // keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('visible')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextLightbox();
+        if (e.key === 'ArrowLeft') prevLightbox();
     });
 
     // Tabs
