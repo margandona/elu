@@ -1,5 +1,8 @@
 # Node dependencies
 node_modules/
+package-lock.json
+yarn.lock
+package.json
 
 # Build outputs
 dist/
