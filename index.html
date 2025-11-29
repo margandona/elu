@@ -65,13 +65,14 @@
         border-radius: 20px;
         box-shadow: 0 0 12px rgba(0,0,0,0.12);
         opacity: 0;
-        transform: scale(0.5);
-        transition: opacity 0.8s ease, transform 0.8s ease;
+        transform: scale(0.1) rotateY(90deg);
+        transition: opacity 1s ease, transform 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        position: relative;
     }
 
     .tarjeta.visible {
         opacity: 1;
-        transform: scale(1);
+        transform: scale(1) rotateY(0deg);
     }
 
     @keyframes fadeIn {
@@ -97,37 +98,60 @@
         display: none;
         width: 100%;
         border-radius: 18px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
     }
 
     .carousel-slide.active {
         display: block;
-        animation: fadeIn 0.8s ease;
+        animation: zoomSlide 0.8s ease;
     }
 
-    /* Botón de silenciar pequeño */
-    .btn-mute-mini {
+    @keyframes zoomSlide {
+        0% { opacity: 0; transform: scale(1.2); }
+        100% { opacity: 1; transform: scale(1); }
+    }
+
+    .carousel-slide:hover {
+        transform: scale(1.02);
+    }
+
+    /* Botón flotante estilo Kuromi */
+    .btn-mute-float {
         position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(255, 77, 167, 0.9);
-        border: none;
+        top: 15px;
+        right: 15px;
+        background: linear-gradient(135deg, rgba(199, 180, 255, 0.85), rgba(255, 77, 167, 0.85));
+        border: 3px solid rgba(255, 255, 255, 0.8);
         border-radius: 50%;
-        width: 32px;
-        height: 32px;
-        font-size: 0.8rem;
+        width: 56px;
+        height: 56px;
+        font-size: 1.3rem;
         cursor: pointer;
         color: #fff;
-        box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        box-shadow: 0 4px 15px rgba(199, 180, 255, 0.6), 0 0 0 0 rgba(255, 77, 167, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 100;
-        transition: transform .2s ease, background .2s ease;
+        z-index: 1001;
+        transition: transform .3s ease, box-shadow .3s ease;
+        animation: flotar 3s ease-in-out infinite;
+        backdrop-filter: blur(5px);
     }
 
-    .btn-mute-mini:hover {
-        transform: scale(1.1);
-        background: var(--rosa-fuerte);
+    @keyframes flotar {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+    }
+
+    .btn-mute-float:hover {
+        transform: scale(1.15) rotate(10deg);
+        box-shadow: 0 6px 25px rgba(199, 180, 255, 0.8), 0 0 20px rgba(255, 77, 167, 0.6);
+        animation: none;
+    }
+
+    .btn-mute-float:active {
+        transform: scale(0.95);
     }
 
     .titulo {
@@ -166,14 +190,40 @@
         justify-content: center;
         align-items: center;
         gap: 3px;
-        transition: background .2s ease, color .2s ease, transform .2s ease, box-shadow .2s ease;
+        transition: background .3s ease, color .3s ease, transform .3s ease, box-shadow .3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .tab-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .tab-btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
+    .tab-btn:hover {
+        transform: translateY(-2px);
+        border-color: var(--rosa-fuerte);
     }
 
     .tab-btn.active {
-        background: var(--rosa-fuerte);
+        background: linear-gradient(135deg, var(--rosa-fuerte), var(--morado));
         color: #fff;
-        box-shadow: 0 0 10px var(--rosa-suave);
-        transform: translateY(-1px);
+        box-shadow: 0 0 15px var(--rosa-suave);
+        transform: translateY(-2px) scale(1.05);
+        border-color: transparent;
     }
 
     /* Contenido de secciones */
@@ -188,6 +238,12 @@
 
     .seccion.activa {
         display: block;
+        animation: slideIn 0.5s ease;
+    }
+
+    @keyframes slideIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .seccion h3 {
@@ -237,11 +293,15 @@
     .galeria img {
         object-fit: cover;
         height: 70px;
+        cursor: pointer;
+        filter: brightness(0.95);
     }
 
     .galeria img:hover {
-        transform: scale(1.07);
-        box-shadow: 0 0 10px var(--morado);
+        transform: scale(1.12) rotate(3deg);
+        box-shadow: 0 0 20px var(--morado), 0 0 30px var(--rosa-suave);
+        filter: brightness(1.1);
+        z-index: 10;
     }
 
     .slot-extra {
@@ -274,19 +334,21 @@
 
 <!-- Botón inicial para abrir -->
 <button class="btn-abrir" id="btnAbrir">
-    🎀 Abrir Invitación 🎀
+     Abrir Invitación 
 </button>
 
 <div class="tarjeta" id="tarjeta">
-    <!-- Botón de silenciar en esquina -->
-    <button class="btn-mute-mini" id="btnMuteMini">🔇</button>
-
+    <!-- Botón flotante de sonido estilo Kuromi -->
+    <button class="btn-mute-float" id="btnMuteFloat">🔇</button>
+    
     <!-- Carousel de imágenes -->
     <div class="carousel-container">
         <img src="1.png" alt="Foto 1" class="carousel-slide active">
         <img src="2.png" alt="Foto 2" class="carousel-slide">
         <img src="3.png" alt="Foto 3" class="carousel-slide">
         <img src="4.png" alt="Foto 4" class="carousel-slide">
+        <img src="5.png" alt="Foto 5" class="carousel-slide">
+        <img src="6.png" alt="Foto 6" class="carousel-slide">
     </div>
 
     <div class="titulo">Mi Licenciatura de Kinder</div>
@@ -327,13 +389,13 @@
     <div class="seccion" id="seccion-galeria">
         <h3>Momentos Kuromi</h3>
         <div class="galeria">
-            <img src="kuromi1.jpg" alt="Foto Kuromi 1">
-            <img src="kuromi2.jpg" alt="Foto Kuromi 2">
+            <img src="kuromi1.png" alt="Foto Kuromi 1">
+            <img src="kuromi2.png" alt="Foto Kuromi 2">
 
-            <img src="kuromi3.jpg" alt="Foto Kuromi 3">
-            <img src="kuromi4.jpg" alt="Foto Kuromi 4">
-            <img src="kuromi1.jpg" alt="Foto Kuromi 5">
-            <img src="kuromi2.jpg" alt="Foto Kuromi 6 ">
+            <img src="kuromi3.png" alt="Foto Kuromi 3">
+            <img src="kuromi4.png" alt="Foto Kuromi 4">
+            <img src="kuromi5.png" alt="Foto Kuromi 5">
+            <img src="kuromi6.png" alt="Foto Kuromi 6 ">
         </div>
     </div>
 
@@ -345,12 +407,13 @@
 <script>
     const audio = document.getElementById('audio');
     const btnAbrir = document.getElementById('btnAbrir');
-    const btnMuteMini = document.getElementById('btnMuteMini');
+    const btnMuteFloat = document.getElementById('btnMuteFloat');
     const tarjeta = document.getElementById('tarjeta');
     const slides = document.querySelectorAll('.carousel-slide');
 
     let currentSlide = 0;
     let isMuted = false;
+    let carouselInterval;
 
     // Botón abrir invitación
     btnAbrir.addEventListener('click', () => {
@@ -363,18 +426,41 @@
         });
 
         // Iniciar carousel
-        setInterval(() => {
+        carouselInterval = setInterval(() => {
             slides[currentSlide].classList.remove('active');
             currentSlide = (currentSlide + 1) % slides.length;
             slides[currentSlide].classList.add('active');
         }, 3000); // Cambiar cada 3 segundos
     });
 
-    // Botón silenciar
-    btnMuteMini.addEventListener('click', () => {
+    // Botón flotante de silenciar
+    btnMuteFloat.addEventListener('click', () => {
         isMuted = !isMuted;
         audio.muted = isMuted;
-        btnMuteMini.textContent = isMuted ? '🔊' : '🔇';
+        btnMuteFloat.textContent = isMuted ? '🔊' : '🔇';
+        
+        // Efecto de rebote al hacer clic
+        btnMuteFloat.style.animation = 'none';
+        setTimeout(() => {
+            btnMuteFloat.style.animation = 'flotar 3s ease-in-out infinite';
+        }, 100);
+    });
+
+    // Click en las imágenes del carousel para avanzar manualmente
+    slides.forEach(slide => {
+        slide.addEventListener('click', () => {
+            clearInterval(carouselInterval);
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            
+            // Reiniciar el carousel automático
+            carouselInterval = setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 3000);
+        });
     });
 
     // Tabs
@@ -397,6 +483,19 @@
                 secciones[key].classList.toggle('activa', key === tab);
             });
         });
+    });
+
+    // Agregar efecto de partículas al pasar el mouse sobre el título
+    const titulo = document.querySelector('.titulo');
+    titulo.addEventListener('mouseenter', () => {
+        titulo.style.transform = 'scale(1.05)';
+        titulo.style.textShadow = '0 0 10px var(--rosa-suave), 0 0 20px var(--morado)';
+        titulo.style.transition = 'all 0.3s ease';
+    });
+    
+    titulo.addEventListener('mouseleave', () => {
+        titulo.style.transform = 'scale(1)';
+        titulo.style.textShadow = 'none';
     });
 </script>
 
